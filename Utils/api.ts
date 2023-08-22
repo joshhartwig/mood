@@ -1,0 +1,36 @@
+import { create } from 'domain'
+
+// this is a utility function that will create a URL for us based on the current origin
+const createURL = (path: string) => {
+  return window.location.origin + path
+}
+
+// this is a utility function that will create a new journal entry
+export const createNewEntry = async () => {
+  const res = await fetch(
+    new Request(createURL('/api/journal'), {
+      method: 'POST',
+    })
+  )
+
+  if (res.ok) {
+    const data = await res.json()
+    return data.data
+  } else {
+    console.log(`error creating new entry: ${res.status}`)
+  }
+}
+
+export const updateEntry = async (id: string, content: string) => {
+  const res = await fetch(
+    new Request(createURL(`/api/journal/${id}`), {
+      method: 'PATCH',
+      body: JSON.stringify({ content }),
+    })
+  )
+
+  if (res.ok) {
+    const data = await res.json()
+    return data.data
+  }
+}
