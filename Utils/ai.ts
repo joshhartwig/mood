@@ -50,3 +50,5 @@ export const getPrompt = async (content: string) => {
 
   return input
 }
+
+const qa = async () => {}
